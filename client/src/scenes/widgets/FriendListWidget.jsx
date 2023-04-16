@@ -13,7 +13,7 @@ const FriendListWidget = ({ userId }) => {
 
   const getFriends = async () => {
     const response = await fetch(
-      process.env.REACT_APP_EXPRESS_URL + `/users/${userId}/friends`,
+      `${process.env.REACT_APP_EXPRESS_URL}/users/${userId}/friends`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
