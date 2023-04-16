@@ -1,5 +1,6 @@
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 import Form from "./Form";
+import CoopInfoWidget from "scenes/widgets/CoopInfoWidget";
 
 const LoginPage = () => {
   const theme = useTheme();
@@ -24,8 +25,18 @@ const LoginPage = () => {
         borderRadius="1.5rem"
         backgroundColor={theme.palette.background.alt}
       >
+        <CoopInfoWidget />
+      </Box>
+
+      <Box
+        width={isNonMobileScreens ? "50%" : "93%"}
+        p="2rem"
+        m="2rem auto"
+        borderRadius="1.5rem"
+        backgroundColor={theme.palette.background.alt}
+      >
         <Typography fontWeight="500" variant="h5" sx={{ mb: "1.5rem" }}>
-          Welcome to Coopmunity, a place where we all co-op and credit union members around the world connected
+          To access the content here then you need to login
         </Typography>
         <Form />
       </Box>
