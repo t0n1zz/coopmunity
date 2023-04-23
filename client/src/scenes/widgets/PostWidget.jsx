@@ -17,6 +17,7 @@ const PostWidget = ({
   postUserId,
   name,
   description,
+  location,
   picturePath,
   userPicturePath,
   likes,
@@ -32,6 +33,7 @@ const PostWidget = ({
 
   const { palette } = useTheme();
   const main = palette.neutral.main;
+  const medium = palette.neutral.medium;
   const primary = palette.primary.main;
 
   const date = new Date(createdAt);
@@ -43,18 +45,20 @@ const PostWidget = ({
   const minutes = date.getMinutes();
   const seconds = date.getSeconds();
 
-  const formattedDate = `${day}-${month}-${year} | ${hours}:${minutes}:${seconds}`;
-
+  const formattedDate = `Posted at ${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
 
   const patchLike = async () => {
-    const response = await fetch(`${process.env.REACT_APP_EXPRESS_URL}/posts/${postId}/like`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId: loggedInUserId }),
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_EXPRESS_URL}/posts/${postId}/like`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: loggedInUserId }),
+      }
+    );
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
   };
@@ -64,12 +68,15 @@ const PostWidget = ({
       <Friend
         friendId={postUserId}
         name={name}
-        subtitle={formattedDate}
+        subtitle={location}
         userPicturePath={userPicturePath}
         loggedInUserId={loggedInUserId}
       />
       <Typography color={main} sx={{ mt: "1rem" }}>
         {description}
+      </Typography>
+      <Typography color={medium} fontSize="0.65rem" style={{ marginTop: "0.75rem" }}>
+        {formattedDate}
       </Typography>
       {picturePath && (
         <img

@@ -1,5 +1,6 @@
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 import Form from "./Form";
+import BetaNoticeWidget from "scenes/widgets/BetaNoticeWidget";
 import CoopInfoWidget from "scenes/widgets/CoopInfoWidget";
 
 const LoginPage = () => {
@@ -16,6 +17,15 @@ const LoginPage = () => {
         <Typography fontWeight="bold" fontSize="32px" color="primary">
           Coopmunity
         </Typography>
+      </Box>
+
+      <Box
+        width="98%"
+        m="1rem auto"
+        borderRadius="1.5rem"
+        backgroundColor={theme.palette.background.alt}
+      >
+        <BetaNoticeWidget />
       </Box>
 
       <Box
