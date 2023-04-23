@@ -1,4 +1,4 @@
-import { PersonAddOutlined } from "@mui/icons-material";
+import { CasesRounded } from "@mui/icons-material";
 import { Box, Typography, useTheme } from "@mui/material";
 import FlexBetween from "./FlexBetween";
 
@@ -11,7 +11,7 @@ const Topic = ({ name, subtitle }) => {
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
-        <PersonAddOutlined sx={{ color: primaryDark }} />
+        <CasesRounded sx={{ color: primaryDark }} />
         <Box onClick={() => {}}>
           <Typography
             color={main}

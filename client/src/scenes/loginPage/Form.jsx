@@ -19,12 +19,12 @@ import FlexBetween from "components/FlexBetween";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
-  lastName: yup.string(),
+  lastName: yup.string().optional(),
   email: yup.string().email("invalid email").required("required"),
   password: yup.string().required("required"),
   location: yup.string().required("required"),
   occupation: yup.string().required("required"),
-  picture: yup.string(),
+  picture: yup.string().optional(),
 });
 
 const loginSchema = yup.object().shape({
@@ -65,7 +65,9 @@ const Form = () => {
       for (let value in values) {
         formData.append(value, values[value]);
       }
-      formData.append("picturePath", values.picture.name);
+      if(values.picture){
+        formData.append("picturePath", values.picture.name);
+      }
   
       const savedUserResponse = await fetch(
         `${process.env.REACT_APP_EXPRESS_URL}/auth/register`,
@@ -81,7 +83,7 @@ const Form = () => {
         setPageType("login");
       }
     } catch (error) {
-      
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
