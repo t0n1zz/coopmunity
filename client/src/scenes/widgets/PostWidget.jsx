@@ -17,11 +17,11 @@ const PostWidget = ({
   postUserId,
   name,
   description,
-  location,
   picturePath,
   userPicturePath,
   likes,
   comments,
+  createdAt,
 }) => {
   const [isComments, setIsComments] = useState(false);
   const dispatch = useDispatch();
@@ -33,6 +33,18 @@ const PostWidget = ({
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
+
+  const date = new Date(createdAt);
+
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+
+  const formattedDate = `${day}-${month}-${year} | ${hours}:${minutes}:${seconds}`;
+
 
   const patchLike = async () => {
     const response = await fetch(`${process.env.REACT_APP_EXPRESS_URL}/posts/${postId}/like`, {
@@ -52,8 +64,9 @@ const PostWidget = ({
       <Friend
         friendId={postUserId}
         name={name}
-        subtitle={location}
+        subtitle={formattedDate}
         userPicturePath={userPicturePath}
+        loggedInUserId={loggedInUserId}
       />
       <Typography color={main} sx={{ mt: "1rem" }}>
         {description}
