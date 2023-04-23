@@ -20,7 +20,7 @@ const CoopInfoWidget = () => {
       </Typography>
       <FlexBetween>
         <Typography color={main}>Find more at</Typography>
-        <Typography color={medium}>woccu.org</Typography>
+        <Typography color={medium}><a href="https://woccu.org/" target="_blank" rel="noopener noreferrer">woccu.org</a></Typography>
       </FlexBetween>
     </WidgetWrapper>
   );

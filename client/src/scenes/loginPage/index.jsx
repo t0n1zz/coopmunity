@@ -5,9 +5,12 @@ import CoopInfoWidget from "scenes/widgets/CoopInfoWidget";
 
 const LoginPage = () => {
   const theme = useTheme();
+  const { palette } = useTheme();
+  const medium = palette.neutral.medium;
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
+
   return (
-    <Box>
+    <Box sx={{ pb: "1rem" }} >
       <Box
         width="100%"
         backgroundColor={theme.palette.background.alt}
@@ -50,6 +53,10 @@ const LoginPage = () => {
         </Typography>
         <Form />
       </Box>
+
+      <Typography color={medium} fontSize="0.75rem" textAlign="center">
+        Developed by <a href="https://linktr.ee/laurensiustony" target="_blank" rel="noopener noreferrer">PamanBeruang</a>
+      </Typography>
     </Box>
   );
 };
