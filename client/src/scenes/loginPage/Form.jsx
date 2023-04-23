@@ -19,7 +19,7 @@ import FlexBetween from "components/FlexBetween";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
-  lastName: yup.string().optional(),
+  lastName: yup.string().required("required"),
   email: yup.string().email("invalid email").required("required"),
   password: yup.string().required("required"),
   location: yup.string().required("required"),
@@ -167,7 +167,7 @@ const Form = () => {
                       sx={{ gridColumn: "span 2" }}
                     />
                     <TextField
-                      label="Last Name"
+                      label="Last Name [required]"
                       onBlur={handleBlur}
                       onChange={handleChange}
                       value={values.lastName}
