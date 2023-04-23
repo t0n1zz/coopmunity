@@ -17,6 +17,10 @@ const TopicListWidget = () => {
       </Typography>
       <Box display="flex" flexDirection="column" gap="1.5rem">
         <Topic
+          name={`ACUNEL`}
+          subtitle={`Asian Credit Union Network of Emerging Leaders`}
+        />
+        <Topic
           name={`Finance Service`}
           subtitle={`Credit union financial service`}
         />
@@ -27,6 +31,10 @@ const TopicListWidget = () => {
         <Topic
           name={`Technology`}
           subtitle={`Tech stack for core banking`}
+        />
+        <Topic
+          name={`Fraud Center`}
+          subtitle={`Collection of all fraud case`}
         />
       </Box>
     </WidgetWrapper>
