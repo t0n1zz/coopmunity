@@ -1,25 +1,28 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { CustomButton } from "./";
 import { logo, menu, search, profile } from "../assets";
 import { navlinks } from "../constants";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [isActive, setIsActive] = useState("dashboard");
+  const location = useLocation();
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const isAuth = Boolean(useSelector((state) => state.token));
   const user = useSelector((state) => state.user);
 
   return (
     <div className="flex md:flex-row flex-col-reverse justify-between mb-[35px] gap-6">
-      <Link to="/" className="flex flex-col items-center" >
-        <h1 className="font-lato font-bold w-full text-white text-xl">
-          COOPMUNITY
-        </h1>
-        <p className="text-[#4b5264]">Forum for Credit Union</p>
-      </Link>
+      <div className="hidden md:block">
+        <Link to="/" className="flex flex-col items-center">
+          <h1 className="font-lato font-bold w-full text-white text-xl">
+            COOPMUNITY
+          </h1>
+          <p className="text-[#4b5264]">Forum for Credit Union</p>
+        </Link>
+      </div>
       <div className="lg:flex-1 flex flex-row max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#1c1c24] rounded-[100px]">
         <input
           type="text"
@@ -72,7 +75,7 @@ const Navbar = () => {
               title="Login"
               styles="bg-[#3e3e63]"
               handleClick={() => {
-               navigate("login");
+                navigate("login");
               }}
             />
             <CustomButton
@@ -80,7 +83,7 @@ const Navbar = () => {
               title="Register"
               styles="bg-[#1dc071]"
               handleClick={() => {
-               navigate("register");
+                navigate("register");
               }}
             />
           </>
@@ -89,13 +92,14 @@ const Navbar = () => {
 
       {/* Small screen navigation */}
       <div className="sm:hidden flex justify-between items-center relative">
-        <div className="w-[40px] h-[40px] rounded-[10px] bg-[#2c2f32] flex justify-center items-center cursor-pointer">
-          <img
-            src={logo}
-            alt="user"
-            className="w-[60%] h-[60%] object-contain"
-          />
-        </div>
+        <Link
+          to="/"
+          className="w-[40px] h-[40px] flex justify-center items-center"
+        >
+          <h1 className="font-lato font-bold w-full text-white text-xl">
+            COOPMUNITY
+          </h1>
+        </Link>
 
         <img
           src={menu}
@@ -114,24 +118,26 @@ const Navbar = () => {
               <li
                 key={link.name}
                 className={`flex p-4 ${
-                  isActive === link.name && "bg-[#3a3a43]"
+                  location.pathname === link.link && "bg-[#3a3a43]"
                 }`}
                 onClick={() => {
-                  setIsActive(link.name);
                   setToggleDrawer(false);
                   navigate(link.link);
                 }}
               >
-                <img
-                  src={link.imgUrl}
-                  alt={link.name}
-                  className={`w-[24px] h-[24px] object-contain ${
-                    isActive === link.name ? "grayscale-0" : "grayscale"
+                <FontAwesomeIcon
+                  icon={link.icon}
+                  className={`w-[24px] h-[24px] text-white object-contain ${
+                    location.pathname === link.link
+                      ? "grayscale-0"
+                      : "grayscale"
                   }`}
                 />
                 <p
                   className={`ml-[20px] font-epilogue font-semibold text-[14px] ${
-                    isActive === link.name ? "text-[#1dc071]" : "text-[#808191]"
+                    location.pathname === link.link
+                      ? "text-[#1dc071]"
+                      : "text-[#808191]"
                   }`}
                 >
                   {link.name}
