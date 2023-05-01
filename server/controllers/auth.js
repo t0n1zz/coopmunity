@@ -13,6 +13,8 @@ export const register = async (req, res) => {
       picturePath,
       friends,
       location,
+      language,
+      creditUnion,
       occupation,
     } = req.body;
 
@@ -27,9 +29,11 @@ export const register = async (req, res) => {
       picturePath,
       friends,
       location,
+      language,
+      creditUnion,
       occupation,
-      viewedProfile: Math.floor(Math.random() * 10000),
-      impressions: Math.floor(Math.random() * 10000),
+      viewedProfile: 0,
+      impressions: 0,
     });
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);

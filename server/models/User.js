@@ -33,6 +33,8 @@ const UserSchema = new mongoose.Schema({
     default: [],
   },
   location: String,
+  language: String,
+  creditUnion: String,
   occupation: String,
   viewedProfile: Number,
   impressions: Number,
