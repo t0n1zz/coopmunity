@@ -44,7 +44,7 @@ const LoginForm = ({
     <>
       {isRegister && (
         <>
-          <div className="flex flex-warp flex-row gap-2">
+          <div className="flex flex-wrap gap-4 lg:flex-row lg:gap-2">
             <FormField
               name="firstName"
               labelName="First Name*"
@@ -88,7 +88,7 @@ const LoginForm = ({
             handleBlur={handleBlur}
             selectOptions={countryLanguages}
           />
-          <div className="flex flex-warp flex-row gap-2">
+          <div className="flex flex-wrap gap-4 lg:flex-row lg:gap-2">
             <FormField
               name="creditUnion"
               labelName="Credit Union*"
