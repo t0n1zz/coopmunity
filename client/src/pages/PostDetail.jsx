@@ -86,7 +86,7 @@ const PostDetail = () => {
 
             <div className="mt-[20px]">
               <p className="font-lato font-normal text-[16px] text-[#808191] leading-[26px] text-justify">
-                {selectedPost.description}
+                <div dangerouslySetInnerHTML={{ __html: selectedPost.description }}></div>
               </p>
             </div>
           </div>

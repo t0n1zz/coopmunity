@@ -59,7 +59,7 @@ const PostCard = ({
             {title}
           </h3>
           <p className="mt-[5px] font-lato text-sm text-[#808191] text-left leading-[18px] truncate">
-            {description}
+            <div dangerouslySetInnerHTML={{ __html: description }}></div>
           </p>
         </div>
 
