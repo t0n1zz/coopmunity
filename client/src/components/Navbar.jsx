@@ -114,48 +114,75 @@ const Navbar = () => {
           } transition-all duration-700`}
         >
           <ul className="mb-4">
-            {navlinks.map((link) => (
-              <li
-                key={link.name}
-                className={`flex p-4 ${
-                  location.pathname === link.link && "bg-[#3a3a43]"
-                }`}
-                onClick={() => {
-                  setToggleDrawer(false);
-                  navigate(link.link);
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={link.icon}
-                  className={`w-[24px] h-[24px] text-white object-contain ${
-                    location.pathname === link.link
-                      ? "grayscale-0"
-                      : "grayscale"
+            {navlinks.map((link) =>
+              (link.isAuth && isAuth) || !link.isAuth ? (
+                <li
+                  key={link.name}
+                  className={`flex p-4 ${
+                    location.pathname === link.link && "bg-[#3a3a43]"
                   }`}
-                />
-                <p
-                  className={`ml-[20px] font-epilogue font-semibold text-[14px] ${
-                    location.pathname === link.link
-                      ? "text-[#1dc071]"
-                      : "text-[#808191]"
-                  }`}
+                  onClick={() => {
+                    setToggleDrawer(false);
+                    navigate(link.link);
+                  }}
                 >
-                  {link.name}
-                </p>
-              </li>
-            ))}
+                  <FontAwesomeIcon
+                    icon={link.icon}
+                    className={`w-[24px] h-[24px] text-white object-contain ${
+                      location.pathname === link.link
+                        ? "grayscale-0"
+                        : "grayscale"
+                    }`}
+                  />
+                  <p
+                    className={`ml-[20px] font-epilogue font-semibold text-[14px] ${
+                      location.pathname === link.link
+                        ? "text-[#1dc071]"
+                        : "text-[#808191]"
+                    }`}
+                  >
+                    {link.name}
+                  </p>
+                </li>
+              ) : null
+            )}
           </ul>
 
-          <div className="flex mx-4">
-            <CustomButton
-              btnType="button"
-              title={isAuth ? "Create a post" : "Login"}
-              styles={isAuth ? "bg-[#1dc071]" : "bg-[#8c6dfd]"}
-              handleClick={() => {
-                if (isAuth) navigate("/create-post");
-                else navigate("/login");
-              }}
-            />
+          <div className="flex flex-col gap-4 mx-4">
+            {isAuth ? (
+              <>
+                <CustomButton
+                  btnType="button"
+                  title="Create a post"
+                  styles="bg-[#1dc071]"
+                  handleClick={() => {
+                    setToggleDrawer(false);
+                    navigate("/create-post");
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                <CustomButton
+                  btnType="button"
+                  title="Login"
+                  styles="bg-[#3e3e63]"
+                  handleClick={() => {
+                    setToggleDrawer(false);
+                    navigate("login");
+                  }}
+                />
+                <CustomButton
+                  btnType="button"
+                  title="Register"
+                  styles="bg-[#1dc071]"
+                  handleClick={() => {
+                    setToggleDrawer(false);
+                    navigate("register");
+                  }}
+                />
+              </>
+            )}
           </div>
         </div>
       </div>
