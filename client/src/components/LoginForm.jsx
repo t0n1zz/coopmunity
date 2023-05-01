@@ -55,6 +55,7 @@ const LoginForm = ({
               handleBlur={handleBlur}
               error={Boolean(touched.firstName) && Boolean(errors.firstName)}
               helperText={touched.firstName && errors.firstName}
+              required={true}
             />
             <FormField
               name="lastName"
@@ -66,6 +67,7 @@ const LoginForm = ({
               handleBlur={handleBlur}
               error={Boolean(touched.lastName) && Boolean(errors.lastName)}
               helperText={touched.lastName && errors.lastName}
+              required={true}
             />
           </div>
           <FormField
@@ -78,6 +80,7 @@ const LoginForm = ({
             selectOptions={countryOptions}
             error={Boolean(touched.location) && Boolean(errors.location)}
             helperText={touched.location && errors.location}
+            required={true}
           />
           <FormField
             name="language"
@@ -87,6 +90,7 @@ const LoginForm = ({
             handleChange={handleLanguageChange}
             handleBlur={handleBlur}
             selectOptions={countryLanguages}
+            required={true}
           />
           <div className="flex flex-wrap gap-4 lg:flex-row lg:gap-2">
             <FormField
@@ -99,6 +103,7 @@ const LoginForm = ({
               handleBlur={handleBlur}
               error={Boolean(touched.creditUnion) && Boolean(errors.creditUnion)}
               helperText={touched.creditUnion && errors.creditUnion}
+              required={true}
             />
             <FormField
               name="occupation"
@@ -110,6 +115,7 @@ const LoginForm = ({
               handleBlur={handleBlur}
               error={Boolean(touched.occupation) && Boolean(errors.occupation)}
               helperText={touched.occupation && errors.occupation}
+              required={true}
             />
           </div>
           <FormField
@@ -132,6 +138,7 @@ const LoginForm = ({
         handleBlur={handleBlur}
         error={Boolean(touched.email) && Boolean(errors.email)}
         helperText={touched.email && errors.email}
+        required={true}
       />
       <FormField
         name="password"
@@ -143,6 +150,7 @@ const LoginForm = ({
         handleBlur={handleBlur}
         error={Boolean(touched.password) && Boolean(errors.password)}
         helperText={touched.password && errors.password}
+        required={true}
       />
 
       <div className="flex flex-col justify-center items-center gap-5 ">

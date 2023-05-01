@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
-  faComment,
   faTag,
-  faCalendar,
   faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { CustomButton, Loader } from "../components";
+import { Loader } from "../components";
 
 import { setPost } from "state";
 
@@ -22,10 +20,10 @@ const PostDetail = () => {
   const isAuth = Boolean(token);
   const posts = useSelector((state) => state.posts);
   const user = useSelector((state) => state.user);
-  const loggedInUserId = user ? user._id : null;
+  const loggedInUserId = user ? user._id : "";
 
-  const post = location.state;
-  const selectedPost = posts.find((p) => p._id === post._id);
+  const { postId } = useParams();
+  const selectedPost = posts.find((p) => p._id === postId);
 
   const isLiked = Boolean(selectedPost.likes[loggedInUserId]);
   const likeCount = Object.keys(selectedPost.likes).length;
@@ -95,11 +93,17 @@ const PostDetail = () => {
 
           <div className="border-b border-gray-300 mt-4"></div>
 
-          <div className="flex justify-between items-center flex-warp gap-2 my-2">
+          <div className="flex items-center flex-warp gap-2 my-2">
             <FontAwesomeIcon icon={faTag} className="text-[#b2b3bd]" />
-            <p className="font-lato text-[#808191] leading-[18px] truncate">
-              {selectedPost.tag ? selectedPost.tag : "-"}
-            </p>
+            {selectedPost.tags &&
+              selectedPost.tags.map((tag, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-200 text-gray-700 px-3 py-1 text-sm font-medium rounded-lg"
+                >
+                  {tag}
+                </div>
+              ))}
           </div>
 
           <div className="flex justify-between items-center flex-warp gap-4">

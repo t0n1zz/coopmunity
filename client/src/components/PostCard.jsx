@@ -24,7 +24,7 @@ const PostCard = ({
   picturePath,
   userPicturePath,
   likes,
-  tag,
+  tags,
   comments,
   createdAt,
   handleClick,
@@ -109,7 +109,7 @@ const PostCard = ({
               className="font-lato text-[#808191] leading-[18px] truncate"
               style={{ fontSize: "0.75rem" }}
             >
-              {tag ? tag : "-"}
+              {tags ? tags.join(', ') : "-"}
             </p>
           </div>
           <div className="flex justify-between items-center flex-warp gap-2">

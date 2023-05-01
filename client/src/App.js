@@ -24,7 +24,7 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-post" element={<CreatePost />} />
-          <Route path="/post-detail/:id" element={<PostDetail />} />
+          <Route path="/post-detail/:postId" element={<PostDetail />} />
           {/* <Route path="/" element={isAuth ? <HomePage /> : <LoginPage />} />
               <Route
                 path="/home"

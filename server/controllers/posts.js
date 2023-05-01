@@ -4,7 +4,7 @@ import User from "../models/User.js";
 /* CREATE */
 export const createPost = async (req, res) => {
   try {
-    const { userId, description, picturePath } = req.body;
+    const { userId, title, description, tags, picturePath } = req.body;
     const user = await User.findById(userId);
     const newPost = new Post({
       userId,
@@ -12,18 +12,21 @@ export const createPost = async (req, res) => {
       lastName: user.lastName,
       location: user.location,
       title,
-      tag,
+      tags,
       description,
       userPicturePath: user.picturePath,
       picturePath,
       likes: {},
       comments: [],
     });
-    await newPost.save();
+    const savedPost = await newPost.save();
 
-    const post = await Post.find();
-    post.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    res.status(201).json(post);
+    const posts = await Post.find();
+    posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    res.status(201).json({
+      posts : posts,
+      savedPost: savedPost
+    });
   } catch (err) {
     res.status(409).json({ message: err.message });
   }

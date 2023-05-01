@@ -1,0 +1,26 @@
+.react-tagsinput {
+  background-color: transparent;
+  border-radius: 10px;
+  border: 1px solid #3a3a43;
+}
+
+.react-tagsinput-input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+.react-tagsinput-tag {
+  background-color: #3a3a43;
+  border-radius: 10px;
+  color: #ffffff;
+}
+
+.react-tagsinput-tag > a {
+  color: #ffffff;
+}
+
+.react-tagsinput-remove {
+  margin-left: 4px;
+  color: #ffffff;
+}

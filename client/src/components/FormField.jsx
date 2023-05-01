@@ -3,6 +3,11 @@ import Select from "react-select";
 import { useDropzone } from "react-dropzone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import ReactTags from "react-tagsinput";
+import "react-tagsinput/react-tagsinput.css";
+import "../style/reactTag.css";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css"; // Import the default styles for React Quill
 
 const FormField = ({
   name,
@@ -15,6 +20,7 @@ const FormField = ({
   error,
   helperText,
   selectOptions,
+  required = false,
 }) => {
   // Custom styles for react-select
   const customStyles = {
@@ -56,19 +62,33 @@ const FormField = ({
     if (inputType === "textarea") {
       return (
         <textarea
-          required
+          required={required}
           name={name}
           value={value}
           onChange={handleChange}
           onBlur={handleBlur}
           rows={10}
           placeholder={placeholder}
-          className="py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-epilogue text-white text-[14px] placeholder:text-[#4b5264] rounded-[10px] sm:min-w-[300px]"
+          className="py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-lato text-white text-[14px] placeholder:text-[#4b5264] rounded-[10px] sm:min-w-[300px]"
         />
+      );
+    } else if (inputType === "wyswyg") {
+      return (
+        <div className="bg-transparent text-white">
+          <ReactQuill
+            required={required}
+            name={name}
+            value={value}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder={placeholder}
+          />
+        </div>
       );
     } else if (inputType === "select") {
       return (
         <Select
+          required={required}
           name={name}
           value={value}
           onChange={handleChange}
@@ -77,15 +97,28 @@ const FormField = ({
           styles={customStyles}
         />
       );
+    } else if (inputType === "tags") {
+      return (
+        <ReactTags
+          required={required}
+          name={name}
+          value={value}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder={placeholder}
+          addOnBlur={true}
+          addKeys={[9, 13, 188]} // Add tags on Tab, Enter, or comma key press
+        />
+      );
     } else if (inputType === "file") {
       return (
         <div
-          className={`border border-[#3a3a43] bg-transparent font-epilogue text-white text-[14px] placeholder-[#4b5264] rounded-[10px] min-w-[300px] p-3 ${
+          className={`border border-[#3a3a43] bg-transparent font-lato text-white text-[14px] placeholder-[#4b5264] rounded-[10px] min-w-[300px] p-3 ${
             isDragActive ? "bg-gray-800" : ""
           }`}
         >
           <div {...getRootProps()}>
-            <input {...getInputProps()} />
+            <input {...getInputProps()} required={required} />
             {!value ? (
               <p>Add Picture Here</p>
             ) : (
@@ -110,7 +143,7 @@ const FormField = ({
     } else {
       return (
         <input
-          required
+          required={required}
           name={name}
           value={value}
           onChange={handleChange}
@@ -118,7 +151,7 @@ const FormField = ({
           type={inputType}
           step="0.1"
           placeholder={placeholder}
-          className="py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-epilogue text-white text-[14px] placeholder:text-[#4b5264] rounded-[10px] sm:min-w-[300px] "
+          className="py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-lato text-white text-[14px] placeholder:text-[#4b5264] rounded-[10px] sm:min-w-[300px] "
         />
       );
     }
@@ -127,7 +160,7 @@ const FormField = ({
   return (
     <label className="flex-1 w-full flex flex-col">
       {labelName && (
-        <span className="font-epilogue font-medium text-[14px] leading-[22px] text-[#808191] mb-[10px]">
+        <span className="font-lato font-medium text-[14px] leading-[22px] text-[#808191] mb-[10px]">
           {labelName}
         </span>
       )}
