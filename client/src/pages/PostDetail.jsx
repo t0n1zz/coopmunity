@@ -108,7 +108,7 @@ const PostDetail = () => {
 
           <div className="flex justify-between items-center flex-warp gap-4">
             <div>
-              <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">
+              <h4 className="font-lato font-semibold text-[18px] text-white uppercase">
                 Creator
               </h4>
 
@@ -128,10 +128,10 @@ const PostDetail = () => {
                   )}
                 </div>
                 <div>
-                  <h4 className="font-epilogue font-semibold text-[14px] text-white break-all">
+                  <h4 className="font-lato font-semibold text-[14px] text-white break-all">
                     {`${selectedPost.firstName} ${selectedPost.lastName}`}
                   </h4>
-                  <p className="mt-[4px] font-epilogue font-normal text-[12px] text-[#808191]">
+                  <p className="mt-[4px] font-lato font-normal text-[12px] text-[#808191]">
                     10 Posts
                   </p>
                 </div>

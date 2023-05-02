@@ -28,7 +28,7 @@ const Faq = () => {
         </p>
       </div>
 
-      <div className="mt-[60px] flex lg:flex-row flex-col gap-">
+      <div className="mt-[60px] flex lg:flex-row flex-col gap-5">
         <div className="flex-[2] flex flex-col gap-[40px]">
           {/* what is credit union */}
           <div>
@@ -126,7 +126,7 @@ const Faq = () => {
                 <br />
                 <br />
                 So to tackle the issue, member of ACUNEL create the online
-                platform called <b className="text-white">Coopmunity</b> that
+                platform called <b className="text-white">COOPMUNITY</b> that
                 help credit union members especially the youth to come together
                 in one single place to share, connect and collaborate together
                 to become a future leader and at the same time help to promote
@@ -158,7 +158,7 @@ const Faq = () => {
                   styles="bg-[#3e3e63]"
                   icon={faRightToBracket}
                   handleClick={() => {
-                    navigate("login");
+                    navigate("/login");
                   }}
                 />
                 <CustomButton
@@ -167,7 +167,7 @@ const Faq = () => {
                   styles="bg-[#1dc071]"
                   icon={faUserPlus}
                   handleClick={() => {
-                    navigate("register");
+                    navigate("/register");
                   }}
                 />
               </>
