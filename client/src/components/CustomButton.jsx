@@ -15,6 +15,7 @@ const CustomButton = ({ btnType, title, icon, handleClick, styles }) => {
       </span>
       <span className="sm:hidden">
         <FontAwesomeIcon icon={icon} />
+        {title}
       </span>
     </button>
   );

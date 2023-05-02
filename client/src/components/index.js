@@ -7,3 +7,4 @@ export { default as PostCard } from './PostCard';
 export { default as Loader } from './Loader';
 export { default as LoginForm } from './LoginForm';
 export { default as Welcome } from './Welcome';
+export { default as Footer } from './Footer';

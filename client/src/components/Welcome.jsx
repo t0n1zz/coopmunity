@@ -9,7 +9,7 @@ const Welcome = () => {
           Welcome to COOPMUNITY
         </h1>
         <p className="text-lg text-white text-center">
-          A Forum for Credit Union Members, Stafs and Supporters
+          Forum for Credit Union Members
         </p>
         <hr className="w-16 h-1 bg-white my-4" />
         <p className="text-md text-white text-center">Click to learn more</p>
