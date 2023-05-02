@@ -1,17 +1,64 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setPosts } from "state";
 import { CustomButton } from "./";
 import { navlinks } from "../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faUser, faBars, faCirclePlus, faRightToBracket ,faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSearch,
+  faUser,
+  faBars,
+  faCirclePlus,
+  faRightToBracket,
+  faUserPlus,
+  faSpinner,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const [toggleDrawer, setToggleDrawer] = useState(false);
   const isAuth = Boolean(useSelector((state) => state.token));
   const user = useSelector((state) => state.user);
+  const [searchTerm, setSearchTerm] = useState("");
+  const posts = useSelector((state) => state.posts);
+  const token = useSelector((state) => state.token);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSearchInputChange = (event) => {
+    setSearchTerm(event.target.value);
+    if (searchTerm === "") {
+      searchPosts();
+    }
+  };
+
+  const handleSearchInputKeyUp = (event) => {
+    if (event.target.value === "") {
+      searchPosts();
+    }
+  };
+
+  const searchPosts = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_EXPRESS_URL}/posts?search=${searchTerm}`,
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const data = await response.json();
+      dispatch(setPosts({ posts: data }));
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="flex md:flex-row flex-col-reverse justify-between mb-[35px] gap-6">
@@ -26,16 +73,33 @@ const Navbar = () => {
       <div className="lg:flex-1 flex flex-row max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#1c1c24] rounded-[100px]">
         <input
           type="text"
+          value={searchTerm}
+          onChange={handleSearchInputChange}
+          onKeyUp={handleSearchInputKeyUp}
           placeholder="Search for post"
           className="flex w-full font-epilogue font-normal text-[14px] placeholder:text-[#4b5264] text-white bg-transparent outline-none"
         />
 
-        <div className="w-[72px] h-full rounded-[20px] bg-[#4acd8d] flex justify-center items-center cursor-pointer">
-          <FontAwesomeIcon
-            icon={faSearch}
-            className="w-[15px] h-[15px] text-white"
-          />
-        </div>
+        {isLoading ? (
+          <div
+            className="w-[72px] h-full rounded-[20px] bg-[#4acd8d] flex justify-center items-center cursor-pointer"
+          >
+            <FontAwesomeIcon
+              icon={faSpinner}
+              className="w-[15px] h-[15px] text-white animate-spin"
+            />
+          </div>
+        ) : (
+          <div
+            className="w-[72px] h-full rounded-[20px] bg-[#4acd8d] flex justify-center items-center cursor-pointer"
+            onClick={searchPosts}
+          >
+            <FontAwesomeIcon
+              icon={faSearch}
+              className="w-[15px] h-[15px] text-white"
+            />
+          </div>
+        )}
       </div>
 
       <div className="sm:flex hidden flex-row justify-end gap-4">
@@ -104,7 +168,8 @@ const Navbar = () => {
 
         <FontAwesomeIcon
           icon={faBars}
-          className="w-[34px] h-[34px] object-contain cursor-pointer text-white" size="2x"
+          className="w-[34px] h-[34px] object-contain cursor-pointer text-white"
+          size="2x"
           onClick={() => setToggleDrawer((prev) => !prev)}
         />
 

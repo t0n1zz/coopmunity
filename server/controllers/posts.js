@@ -24,8 +24,8 @@ export const createPost = async (req, res) => {
     const posts = await Post.find();
     posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     res.status(201).json({
-      posts : posts,
-      savedPost: savedPost
+      posts: posts,
+      savedPost: savedPost,
     });
   } catch (err) {
     res.status(409).json({ message: err.message });
@@ -35,8 +35,16 @@ export const createPost = async (req, res) => {
 /* READ */
 export const getFeedPosts = async (req, res) => {
   try {
-    const post = await Post.find();
-    post.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const { search } = req.query;
+    let query = {};
+    let post;
+    if (search) {
+      query = { title: { $regex: search, $options: "i" } };
+      post = await Post.find(query);
+    } else {
+      post = await Post.find();
+      post.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
     res.status(200).json(post);
   } catch (err) {
     res.status(404).json({ message: err.message });
