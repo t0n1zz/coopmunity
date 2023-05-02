@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 import { CustomButton, FormField, Loader } from "components";
+import { faArrowUpFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 const CreatePost = () => {
   const navigate = useNavigate();
@@ -127,6 +128,7 @@ const CreatePost = () => {
               btnType="submit"
               title="Submit new post"
               styles="bg-[#1dc071]"
+              icon={faArrowUpFromBracket}
             />
           </div>
         </form>

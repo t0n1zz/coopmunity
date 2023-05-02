@@ -22,7 +22,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/logout" element={<Logout />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/post-detail/:postId" element={<PostDetail />} />
           {/* <Route path="/" element={isAuth ? <HomePage /> : <LoginPage />} />

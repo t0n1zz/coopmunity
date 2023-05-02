@@ -1,15 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import PostCard from './PostCard';
-import { loader } from "../assets";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+
+import PostCard from "./PostCard";
 
 const DisplayPosts = ({ title, isLoading, posts }) => {
   const navigate = useNavigate();
 
   const handleNavigate = (post) => {
-    navigate(`/post-detail/${post._id}`, { state: post })
-  }
+    navigate(`/post-detail/${post._id}`, { state: post });
+  };
 
   return (
     <div>
@@ -19,10 +21,9 @@ const DisplayPosts = ({ title, isLoading, posts }) => {
 
       <div className="flex flex-wrap mt-[20px] gap-[26px]">
         {isLoading && (
-          <img
-            src={loader}
-            alt="loader"
-            className="w-[100px] h-[100px] object-contain"
+          <FontAwesomeIcon
+            icon={faSpinner}
+            className="w-[100px] h-[100px] text-white object-contain animate-spin" size="5x"
           />
         )}
 

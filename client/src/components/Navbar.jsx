@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { CustomButton } from "./";
-import { logo, menu, search, profile } from "../assets";
 import { navlinks } from "../constants";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch, faUser, faBars, faCirclePlus, faRightToBracket ,faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -31,10 +31,9 @@ const Navbar = () => {
         />
 
         <div className="w-[72px] h-full rounded-[20px] bg-[#4acd8d] flex justify-center items-center cursor-pointer">
-          <img
-            src={search}
-            alt="search"
-            className="w-[15px] h-[15px] object-contain"
+          <FontAwesomeIcon
+            icon={faSearch}
+            className="w-[15px] h-[15px] text-white"
           />
         </div>
       </div>
@@ -46,11 +45,12 @@ const Navbar = () => {
               btnType="button"
               title="Create a post"
               styles="bg-[#1dc071]"
+              icon={faCirclePlus}
               handleClick={() => {
                 navigate("/create-post");
               }}
             />
-            <Link to="/profile">
+            <Link to={`/profile/${user._id}`}>
               <div className="w-[52px] h-[52px] rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer">
                 {user.picturePath ? (
                   <img
@@ -59,10 +59,9 @@ const Navbar = () => {
                     src={`${process.env.REACT_APP_EXPRESS_URL}/assets/${user.picturePath}`}
                   />
                 ) : (
-                  <img
-                    src={profile}
-                    alt="user"
-                    className="w-[60%] h-[60%] object-contain"
+                  <FontAwesomeIcon
+                    icon={faUser}
+                    className="w-[60%] h-[60%]  text-white"
                   />
                 )}
               </div>
@@ -74,6 +73,7 @@ const Navbar = () => {
               btnType="button"
               title="Login"
               styles="bg-[#3e3e63]"
+              icon={faRightToBracket}
               handleClick={() => {
                 navigate("login");
               }}
@@ -82,6 +82,7 @@ const Navbar = () => {
               btnType="button"
               title="Register"
               styles="bg-[#1dc071]"
+              icon={faUserPlus}
               handleClick={() => {
                 navigate("register");
               }}
@@ -101,10 +102,9 @@ const Navbar = () => {
           </h1>
         </Link>
 
-        <img
-          src={menu}
-          alt="menu"
-          className="w-[34px] h-[34px] object-contain cursor-pointer"
+        <FontAwesomeIcon
+          icon={faBars}
+          className="w-[34px] h-[34px] object-contain cursor-pointer text-white" size="2x"
           onClick={() => setToggleDrawer((prev) => !prev)}
         />
 
@@ -155,6 +155,7 @@ const Navbar = () => {
                   btnType="button"
                   title="Create a post"
                   styles="bg-[#1dc071]"
+                  icon={faCirclePlus}
                   handleClick={() => {
                     setToggleDrawer(false);
                     navigate("/create-post");
@@ -167,6 +168,7 @@ const Navbar = () => {
                   btnType="button"
                   title="Login"
                   styles="bg-[#3e3e63]"
+                  icon={faRightToBracket}
                   handleClick={() => {
                     setToggleDrawer(false);
                     navigate("login");
@@ -176,6 +178,7 @@ const Navbar = () => {
                   btnType="button"
                   title="Register"
                   styles="bg-[#1dc071]"
+                  icon={faUserPlus}
                   handleClick={() => {
                     setToggleDrawer(false);
                     navigate("register");

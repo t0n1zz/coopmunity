@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogout } from "state";
 import { CustomButton } from "components";
+import { faCircleCheck, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 const Logout = () => {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const Logout = () => {
           btnType="button"
           title="Yes"
           styles="bg-[#cd4813]"
+          icon={faCircleCheck}
           handleClick={() => {
             dispatch(setLogout());
             navigate("/");
@@ -42,6 +44,7 @@ const Logout = () => {
           btnType="button"
           title="No"
           styles="bg-[#1dc071]"
+          icon={faCircleXmark}
           handleClick={() => {
             navigate("/");
           }}

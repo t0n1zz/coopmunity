@@ -29,12 +29,23 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isAuth = Boolean(useSelector((state) => state.token));
+  const user = useSelector((state) => state.user);
+  
+  const updatedNavlinks = navlinks.map((link) => {
+    if (link.name === "profile" && isAuth) {
+      return {
+        ...link,
+        link: `/profile/${user._id}`,
+      };
+    }
+    return link;
+  });
 
   return (
     <div className="flex justify-between items-center flex-col sticky top-5 h-[93vh]">
       <div className="flex-1 flex flex-col justify-between items-center bg-[#1c1c24] rounded-[20px] w-[76px] py-4 mt-12">
         <div className="flex flex-col justify-center items-center gap-3">
-          {navlinks.map((link, index) =>
+          {updatedNavlinks.map((link, index) =>
             (link.isAuth && isAuth) || !link.isAuth ? (
               <Icon
                 key={index}
