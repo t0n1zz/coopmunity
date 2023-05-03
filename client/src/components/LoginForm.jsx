@@ -14,8 +14,26 @@ const LoginForm = ({
   setFieldValue,
 }) => {
   const navigate = useNavigate();
+  const [selectedBirthDate, setSelectedBirthDate] = useState("");
+  const [selectedGender, setSelectedGender] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedLanguage, setSelectedLanguage] = useState("");
+
+  const genderOptions = [
+    { label: "Male", value: "male" },
+    { label: "Female", value: "female" },
+    { label: "Other", value: "other" },
+  ];
+
+  const handleBirthDateChange = (date) => {
+    setSelectedBirthDate(date);
+    setFieldValue("birthDate", date);
+  };
+
+  const handleGenderChange = (selectedOption) => {
+    setSelectedGender(selectedOption);
+    setFieldValue("gender", selectedOption.value);
+  };
 
   const handleCountryChange = (selectedOption) => {
     setSelectedCountry(selectedOption);
@@ -70,6 +88,32 @@ const LoginForm = ({
               required={true}
             />
           </div>
+          <div className="flex flex-wrap gap-4 lg:flex-row lg:gap-2">
+            <FormField
+              name="birthDate"
+              labelName="Birthdate*"
+              placeholder="Select birthdate"
+              inputType="date"
+              value={selectedBirthDate}
+              handleChange={handleBirthDateChange}
+              error={Boolean(touched.birthDate) && Boolean(errors.birthDate)}
+              helperText={touched.birthDate && errors.birthDate}
+              required={true}
+            />
+            <FormField
+              name="gender"
+              labelName="Gender*"
+              placeholder="Select gender"
+              inputType="select"
+              selectOptions={genderOptions}
+              value={selectedGender}
+              handleChange={handleGenderChange}
+              handleBlur={handleBlur}
+              error={Boolean(touched.gender) && Boolean(errors.gender)}
+              helperText={touched.gender && errors.gender}
+              required={true}
+            />
+          </div>
           <FormField
             name="location"
             labelName="Location*"
@@ -101,7 +145,9 @@ const LoginForm = ({
               value={values.creditUnion}
               handleChange={handleChange}
               handleBlur={handleBlur}
-              error={Boolean(touched.creditUnion) && Boolean(errors.creditUnion)}
+              error={
+                Boolean(touched.creditUnion) && Boolean(errors.creditUnion)
+              }
               helperText={touched.creditUnion && errors.creditUnion}
               required={true}
             />

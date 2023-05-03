@@ -32,6 +32,11 @@ const UserSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
+  gender: String,
+  birthDate: {
+    type: Date,
+    default: null,
+  },
   location: String,
   language: String,
   creditUnion: String,

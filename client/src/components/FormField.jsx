@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 import { useDropzone } from "react-dropzone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,7 +7,10 @@ import ReactTags from "react-tagsinput";
 import "react-tagsinput/react-tagsinput.css";
 import "../style/reactTag.css";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Import the default styles for React Quill
+import "react-quill/dist/quill.snow.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+// Import the default styles for React Quill
 
 const FormField = ({
   name,
@@ -30,10 +33,12 @@ const FormField = ({
       border: "1px solid #3a3a43",
       backgroundColor: "transparent",
       fontFamily: "lato",
-      fontSize: "14px",
+      fontSize: "18px",
       color: "white",
       borderRadius: "10px",
       minWidth: "300px",
+      pt: "15px",
+      pb: "15px",
     }),
     option: (provided, state) => ({
       ...provided,
@@ -84,6 +89,16 @@ const FormField = ({
             placeholder={placeholder}
           />
         </div>
+      );
+    } else if (inputType === "date") {
+      return (
+        <DatePicker
+          selected={value}
+          onChange={handleChange}
+          dateFormat="yyyy-MM-dd"
+          className="border border-[#3a3a43] px-3 py-2 rounded-md w-full bg-transparent"
+          placeholderText={placeholder}
+        />
       );
     } else if (inputType === "select") {
       return (

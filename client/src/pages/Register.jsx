@@ -3,9 +3,9 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import Dropzone from "react-dropzone";
-import countriesList from "countries-list";
-import { CustomButton, LoginForm, Loader } from "../components";
+import { LoginForm, Loader } from "../components";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -13,6 +13,8 @@ const registerSchema = yup.object().shape({
   email: yup.string().email("invalid email").required("required"),
   password: yup.string().required("required"),
   location: yup.string().required("required"),
+  birthDate: yup.string().required("required"),
+  gender: yup.string().required("required"),
   language: yup.string().required("required"),
   creditUnion: yup.string().required("required"),
   occupation: yup.string().required("required"),
@@ -25,6 +27,8 @@ const initialValuesRegister = {
   email: "",
   password: "",
   location: "",
+  birthDate: "",
+  gender: "",
   language: "",
   creditUnion: "",
   occupation: "",
@@ -82,7 +86,7 @@ const Register = () => {
   };
 
   const handleRegisterError = (error) => {
-    alert(error);
+    toast.error(error);
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {

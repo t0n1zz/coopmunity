@@ -14,6 +14,8 @@ export const register = async (req, res) => {
       friends,
       location,
       language,
+      gender,
+      birthDate,
       creditUnion,
       occupation,
     } = req.body;
@@ -30,6 +32,8 @@ export const register = async (req, res) => {
       friends,
       location,
       language,
+      gender,
+      birthDate: new Date(birthDate),
       creditUnion,
       occupation,
       viewedProfile: 0,

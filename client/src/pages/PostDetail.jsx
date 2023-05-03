@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -112,30 +112,32 @@ const PostDetail = () => {
                 Creator
               </h4>
 
-              <div className="mt-[20px] flex flex-row items-center flex-wrap gap-[14px]">
-                <div className="w-[52px] h-[52px] flex items-center justify-center rounded-full bg-[#2c2f32] cursor-pointer">
-                  {selectedPost.userPicturePath ? (
-                    <img
-                      className="object-cover rounded-full"
-                      alt="user"
-                      src={`${process.env.REACT_APP_EXPRESS_URL}/assets/${selectedPost.userPicturePath}`}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faCircleUser}
-                      className="text-white"
-                    />
-                  )}
+              <Link to={`/profile/${selectedPost.userId}`}>
+                <div className="mt-[20px] flex flex-row items-center flex-wrap gap-[14px] cursor-pointer">
+                  <div className="w-[52px] h-[52px] flex items-center justify-center rounded-full bg-[#2c2f32] ">
+                    {selectedPost.userPicturePath ? (
+                      <img
+                        className="object-cover rounded-full"
+                        alt="user"
+                        src={`${process.env.REACT_APP_EXPRESS_URL}/assets/${selectedPost.userPicturePath}`}
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faCircleUser}
+                        className="text-white"
+                      />
+                    )}
+                  </div>
+                  <div>
+                    <h4 className="font-lato font-semibold text-[14px] text-white break-all">
+                      {`${selectedPost.firstName} ${selectedPost.lastName}`}
+                    </h4>
+                    <p className="mt-[4px] font-lato font-normal text-[12px] text-[#808191]">
+                      10 Posts
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-lato font-semibold text-[14px] text-white break-all">
-                    {`${selectedPost.firstName} ${selectedPost.lastName}`}
-                  </h4>
-                  <p className="mt-[4px] font-lato font-normal text-[12px] text-[#808191]">
-                    10 Posts
-                  </p>
-                </div>
-              </div>
+              </Link>
             </div>
             <div onClick={patchLike}>
               <h4 className="font-lato font-semibold text-[18px] text-white uppercase">

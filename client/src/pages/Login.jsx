@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setLogin } from "state";
 import { LoginForm, Loader } from "../components";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const loginSchema = yup.object().shape({
   email: yup.string().email("invalid email").required("required"),
@@ -64,7 +66,7 @@ const Login = () => {
   };
 
   const handleLoginError = (error) => {
-    alert(error);
+    toast.error(error);
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
