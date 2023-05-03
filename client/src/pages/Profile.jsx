@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faRightFromBracket, faPersonRays, faVenusMars, faGlobe, faBuilding } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faPersonRays, faVenusMars, faGlobe, faBuilding } from "@fortawesome/free-solid-svg-icons";
 import { countries } from "countries-list";
 import { setPosts } from "state";
-import { DisplayPosts, CustomButton } from "components";
+import { DisplayPosts } from "components";
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState(null);
   const [countryName, setCountryName] = useState("");
@@ -18,7 +17,6 @@ const Profile = () => {
   const { userId } = useParams();
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
-  const loggedInUser = useSelector((state) => state.user);
   
 
   const getUser = async (userId) => {

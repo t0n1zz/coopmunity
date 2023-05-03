@@ -5,16 +5,11 @@ import User from "../models/User.js";
 export const createPost = async (req, res) => {
   try {
     const { userId, title, description, tags, picturePath } = req.body;
-    const user = await User.findById(userId);
     const newPost = new Post({
       userId,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      location: user.location,
       title,
       tags,
       description,
-      userPicturePath: user.picturePath,
       picturePath,
       likes: {},
       comments: [],
@@ -45,6 +40,21 @@ export const getFeedPosts = async (req, res) => {
       post = await Post.find();
       post.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
+
+    // Populate user information for each post
+    await Post.populate(post, {
+      path: "userId",
+      select: "firstName lastName picturePath creditUnion",
+      model: User,
+    });
+
+    // Populate user information for each comment
+    await Post.populate(post, {
+      path: "comments.userId",
+      select: "firstName lastName picturePath creditUnion",
+      model: User,
+    });
+
     res.status(200).json(post);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -55,8 +65,27 @@ export const getUserPosts = async (req, res) => {
   try {
     const { userId } = req.params;
     const post = await Post.find({ userId });
+
+    // Populate user information for each post
+    await Post.populate(post, {
+      path: "userId",
+      select: "firstName lastName picturePath creditUnion",
+      model: User,
+    });
+
     post.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     res.status(200).json(post);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
+export const getUserPostCount = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const postCount = await Post.countDocuments({ userId });
+    res.status(200).json({ count: postCount });
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
@@ -81,6 +110,58 @@ export const likePost = async (req, res) => {
       { likes: post.likes },
       { new: true }
     );
+
+    // Populate user information for each post
+    await Post.populate(updatedPost, {
+      path: "userId",
+      select: "firstName lastName picturePath creditUnion",
+      model: User,
+    });
+
+    // Populate user information for each comment
+    await Post.populate(updatedPost, {
+      path: "comments.userId",
+      select: "firstName lastName picturePath creditUnion",
+      model: User,
+    });
+
+    res.status(200).json(updatedPost);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
+export const addComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId, content } = req.body;
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      {
+        $push: {
+          comments: {
+            userId,
+            content,
+          },
+        },
+      },
+      { new: true }
+    );
+
+    // Populate user information for each post
+    await Post.populate(updatedPost, {
+      path: "userId",
+      select: "firstName lastName picturePath creditUnion",
+      model: User,
+    });
+
+    // Populate user information for each comment
+    await Post.populate(updatedPost, {
+      path: "comments.userId",
+      select: "firstName lastName picturePath creditUnion",
+      model: User,
+    });
 
     res.status(200).json(updatedPost);
   } catch (err) {

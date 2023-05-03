@@ -12,17 +12,14 @@ import {
 import "@fortawesome/fontawesome-svg-core/styles.css";
 
 import { formatDistanceToNow } from "date-fns";
+import PlainTextRenderer from "./PlainTextRenderer";
 
 const PostCard = ({
   _id,
-  postUserId,
-  firstName,
-  lastName,
+  userId,
   title,
   description,
-  location,
   picturePath,
-  userPicturePath,
   likes,
   tags,
   comments,
@@ -59,24 +56,29 @@ const PostCard = ({
             {title}
           </h3>
           <p className="mt-[5px] font-lato text-sm text-[#808191] text-left leading-[18px] truncate">
-            <div dangerouslySetInnerHTML={{ __html: description }}></div>
+            <PlainTextRenderer htmlContent={description} />
           </p>
         </div>
 
         <div className="flex justify-between flex-wrap mt-[25px] gap-2">
           <div className="flex justify-between items-center flex-warp gap-2">
-            {userPicturePath ? (
+            {userId.picturePath ? (
               <img
-                className="object-cover w-5 h-5 rounded-full"
+                className="object-cover w-8 h-8 rounded-full"
                 alt="user"
-                src={`${process.env.REACT_APP_EXPRESS_URL}/assets/${userPicturePath}`}
+                src={`${process.env.REACT_APP_EXPRESS_URL}/assets/${userId.picturePath}`}
               />
             ) : (
               <FontAwesomeIcon icon={faCircleUser} className="text-white" />
             )}
-            <p className="font-lato font-normal text-[12px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate">
-              {`${firstName} ${lastName}`}
-            </p>
+            <div>
+              <h4 className="font-lato font-semibold text-[12px] text-white break-all">
+                {`${userId.firstName} ${userId.lastName}`}
+              </h4>
+              <p className="font-lato font-normal text-[10px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate">
+                {userId.creditUnion}
+              </p>
+            </div>
           </div>
           <div className="flex justify-between items-center flex-warp gap-4">
             <div className="flex justify-between items-center flex-warp gap-2">
@@ -109,7 +111,7 @@ const PostCard = ({
               className="font-lato text-[#808191] leading-[18px] truncate"
               style={{ fontSize: "0.75rem" }}
             >
-              {tags ? tags.join(', ') : "-"}
+              {tags ? tags.join(", ") : "-"}
             </p>
           </div>
           <div className="flex justify-between items-center flex-warp gap-2">

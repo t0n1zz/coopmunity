@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHeart,
@@ -9,11 +8,12 @@ import {
   faCircleUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { Loader } from "../components";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { setPost } from "state";
 
 const PostDetail = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
@@ -29,6 +29,12 @@ const PostDetail = () => {
   const likeCount = Object.keys(selectedPost.likes).length;
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const [comment, setComment] = useState("");
+
+  const handleError = (error) => {
+    toast.error(error);
+  };
 
   // update like
   const patchLike = async () => {
@@ -46,16 +52,62 @@ const PostDetail = () => {
             body: JSON.stringify({ userId: loggedInUserId }),
           }
         );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          handleError(errorData.message);
+        }
+
         const updatedPost = await response.json();
         dispatch(setPost({ post: updatedPost }));
       } catch (error) {
         console.log(error);
+        handleError(error);
         setIsLoading(false);
       } finally {
         setIsLoading(false);
       }
     } else {
       navigate("/login");
+    }
+  };
+
+  const handleCommentSubmit = async () => {
+    if (!comment.trim()) {
+      return;
+    }
+
+    const newComment = {
+      userId: loggedInUserId,
+      content: comment.trim(),
+    };
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_EXPRESS_URL}/posts/${selectedPost._id}/comments`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newComment),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        handleError(errorData.message);
+      }
+
+      const updatedPost = await response.json();
+      dispatch(setPost({ post: updatedPost }));
+      setComment("");
+    } catch (error) {
+      toast(error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -86,7 +138,9 @@ const PostDetail = () => {
 
             <div className="mt-[20px]">
               <p className="font-lato font-normal text-[16px] text-[#808191] leading-[26px] text-justify">
-                <div dangerouslySetInnerHTML={{ __html: selectedPost.description }}></div>
+                <div
+                  dangerouslySetInnerHTML={{ __html: selectedPost.description }}
+                ></div>
               </p>
             </div>
           </div>
@@ -112,14 +166,14 @@ const PostDetail = () => {
                 Creator
               </h4>
 
-              <Link to={`/profile/${selectedPost.userId}`}>
+              <Link to={`/profile/${selectedPost.userId._id}`}>
                 <div className="mt-[20px] flex flex-row items-center flex-wrap gap-[14px] cursor-pointer">
                   <div className="w-[52px] h-[52px] flex items-center justify-center rounded-full bg-[#2c2f32] ">
-                    {selectedPost.userPicturePath ? (
+                    {selectedPost.userId.picturePath ? (
                       <img
                         className="object-cover rounded-full"
                         alt="user"
-                        src={`${process.env.REACT_APP_EXPRESS_URL}/assets/${selectedPost.userPicturePath}`}
+                        src={`${process.env.REACT_APP_EXPRESS_URL}/assets/${selectedPost.userId.picturePath}`}
                       />
                     ) : (
                       <FontAwesomeIcon
@@ -130,10 +184,10 @@ const PostDetail = () => {
                   </div>
                   <div>
                     <h4 className="font-lato font-semibold text-[14px] text-white break-all">
-                      {`${selectedPost.firstName} ${selectedPost.lastName}`}
+                      {`${selectedPost.userId.firstName} ${selectedPost.userId.lastName}`}
                     </h4>
                     <p className="mt-[4px] font-lato font-normal text-[12px] text-[#808191]">
-                      10 Posts
+                      {selectedPost.userId.creditUnion}
                     </p>
                   </div>
                 </div>
@@ -162,6 +216,51 @@ const PostDetail = () => {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="mt-4 flex items-center gap-4">
+            <input
+              type="text"
+              className="flex-1 h-10 px-4 rounded-md bg-white focus:outline-none"
+              placeholder="Add a comment..."
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <button
+              className="px-4 py-2 rounded-md bg-blue-500 text-white font-semibold"
+              onClick={handleCommentSubmit}
+            >
+              Submit
+            </button>
+          </div>
+
+          <div className="flex flex-col items-center gap-2 mt-2">
+            {selectedPost.comments.length === 0 && <p>No comments yet</p>}
+            {selectedPost.comments.map((comment, index) => (
+              <div
+                key={index}
+                className="bg-[#1c1c24] p-2 rounded items-center w-full my-1 flex gap-2"
+              >
+                <div className="w-[52px] h-[52px] flex items-center justify-center rounded-full bg-[#2c2f32] ">
+                  {comment.userId.picturePath ? (
+                    <img
+                      className="object-cover rounded-full"
+                      alt="user"
+                      src={`${process.env.REACT_APP_EXPRESS_URL}/assets/${comment.userId.picturePath}`}
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faCircleUser}
+                      className="text-white"
+                    />
+                  )}
+                </div>
+                <div>
+                  <p className="text-[#808191]">{`${comment.userId.firstName} ${comment.userId.lastName}`}</p>
+                  <p className="font-bold text-white">{comment.content}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
